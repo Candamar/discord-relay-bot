@@ -4,6 +4,9 @@ const client = new Discord.Client();
 const http = require('http');
 http.createServer(function (req, res) {}).listen(process.env.PORT || 6000);
 
+/*
+ * Hash - string to #nnnnnn color
+ */
 var stringToColour = function (str) {
     var hash = 0;
     for (var i = 0; i < str.length; i++) {
@@ -15,11 +18,14 @@ var stringToColour = function (str) {
         colour += ('00' + value.toString(16)).substr(-2);
     }
     return colour;
-}
+};
 
+/**
+ * On new message received - relay to all authorized servers
+ */
 client.on('message', msg => {
     var embed = new Discord.RichEmbed()
-            .setAuthor(msg.member.displayName + '  [' + msg.guild.name + ']', msg.member.user.displayAvatarURL)
+            .setAuthor(msg.member.displayName, msg.member.user.displayAvatarURL)
             .setDescription(msg.content)
             .setColor(stringToColour(msg.member.displayName));
     if (typeof msg.attachments.first() !== 'undefined') {
@@ -33,4 +39,4 @@ client.on('message', msg => {
     });
 });
 
-client.login(process.env.BOT_TOKEN || 'Mjk3MzkyNTUyODA0MzUyMDAx.C8AH7g.MwcZ4xpQsejOYQn4nKE0QlfTzpc');
+client.login(process.env.BOT_TOKEN);
